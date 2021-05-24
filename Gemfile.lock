@@ -65,7 +65,7 @@ GEM
     concurrent-ruby (1.1.8)
     crass (1.0.6)
     erubi (1.10.0)
-    ffi (1.15.0)
+    ffi (1.15.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.10)
@@ -81,13 +81,11 @@ GEM
     marcel (1.0.1)
     method_source (1.0.0)
     mini_mime (1.0.3)
-    mini_portile2 (2.5.1)
     minitest (5.14.4)
     nio4r (2.5.7)
-    nokogiri (1.11.5)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.11.5-x86_64-darwin)
       racc (~> 1.4)
-    puma (5.3.1)
+    puma (5.3.2)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -140,7 +138,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-19
 
 DEPENDENCIES
   byebug
@@ -150,8 +148,5 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
   tzinfo-data
 
-RUBY VERSION
-   ruby 2.6.1p33
-
 BUNDLED WITH
-   2.1.4
+   2.2.15
