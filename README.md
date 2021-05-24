@@ -70,7 +70,7 @@ def show
 end
 ```
 
-This is fairly straightforward so far, But what if we also had a nested resource
+This is fairly straightforward so far. But what if we also had a nested resource
 we wanted to include? For example, if we had a blogging app in which posts
 belong to authors, we might want to do something like this:
 
@@ -99,9 +99,9 @@ the data is returned, that task should be handled elsewhere. Enter
 
 ## ActiveModel::Serializer
 
-`ActiveModel::Serializer` provides an easy way to customize how the JSON
-rendered by our controllers is structured. It is a very "Rails-y" tool, in that
-it uses a "convention over configuration" approach, and is consistent with
+`ActiveModel::Serializer` (or AMS) provides an easy way to customize how the
+JSON rendered by our controllers is structured. It is a very "Rails-y" tool, in
+that it uses a "convention over configuration" approach, and is consistent with
 separation of concerns. Let's take a look at how we can use it to render the
 JSON for our movie app.
 
@@ -121,10 +121,11 @@ generator for that. Drop into your console and run:
 
 `rails g serializer movie`
 
-Take a look at the generated `movie_serializer.rb`; it should look something
-like this:
+Take a look at the generated `movie_serializer.rb` in the `app/serializers`
+directory. It should look something like this:
 
 ```rb
+# app/serializers/movie_serializer.rb
 class MovieSerializer < ActiveModel::Serializer
   attributes :id
 end
@@ -169,9 +170,10 @@ So far, we've used AMS to return the values of the attributes for our `Movie`
 instances. But AMS also allows us to customize the information returned using an
 instance method on the `MovieSerializer` class. For example, say we wanted to
 create a movie summary that consisted of the movie's title and the first 50
-characters of its description. Let's start by adding `summary` to the list of
-attributes. Next, we'll define our method. For now, Let's put a `byebug` in the
-method's body:
+characters of its description.
+
+Let's start by adding `summary` to the list of attributes. Next, we'll define
+our method. For now, Let's put a `byebug` in the method's body:
 
 ```rb
 class MovieSerializer < ActiveModel::Serializer
@@ -187,9 +189,10 @@ Refresh the page in the browser so you drop into `byebug` and enter `self` at
 the `byebug` prompt. The `MovieSerializer` instance that's returned includes an
 `object` attribute which, in turn, contains the first movie instance. This means
 you can enter `self.object` in `byebug` to access the movie instance, and
-`self.object.<attribute_name>` to access a specific attribute. With this
-information, let's enter `q` to break out of the `byebug`, and create our
-`summary` method:
+`self.object.<attribute_name>` to access a specific attribute.
+
+With this information, let's enter `q` to break out of the `byebug`, and create
+our `summary` method:
 
 ```rb
 def summary
@@ -203,23 +206,21 @@ see our new summary added at the end of the JSON.
 ## Explicitly Specifying a Serializer
 
 So far, we have depended on Rails naming conventions for our serializers. When
-we ran `rails g serializer movie`, the AMS gem automatically created the
-`movie_serializer.rb` file for us, and the name of the serializer is passed
-implicitly. Sometimes, however, we might want to create a custom serializer that
-doesn't follow Rails naming conventions. In that case, we'll need to explicitly
-specify the serializer to be used.
+we ran `rails g serializer movie`, the AMS gem automatically created a
+`MovieSerializer` class for us. Whenever we use `render json:` with a `Movie`
+instance or a collection of `Movie` instances, Rails will follow naming
+conventions and **implicitly** look for a serializer that matches the name of
+the model.
 
-Let's say, for example, that we decided we wanted to create our movie summary in
-a custom serializer. First, let's remove it from our `movie_serializer.rb` file:
+Sometimes, however, we might want to create a custom serializer that doesn't
+follow Rails naming conventions; for example, we might have multiple different
+serializers for our `Movie` class depending on what information our frontend
+application needs. In that case, we'll need to **explicitly** specify the
+serializer to be used.
 
-```rb
-class MovieSerializer < ActiveModel::Serializer
-  attributes :id, :title, :year, :length, :director, :description, :poster_url, :category, :discount, :female_director
-end
-```
-
-Next, let's create a new file, `movie_summary_serializer.rb`, and move our
-custom method into it:
+Let's say, for example, that we decided we wanted to create a custom serializer
+solely for displaying our movie summary. First, let's create a new file,
+`movie_summary_serializer.rb`, and move our custom method into it:
 
 ```rb
 class MovieSummarySerializer < ActiveModel::Serializer
@@ -281,7 +282,7 @@ end
 ```
 
 The use of `each_serializer: MovieSummarySerializer` in our action tells the app
-to use our movie summary serializer to render each of the movies in the
+to use our custom movie summary serializer to render each of the movies in the
 collection.
 
 ## Conclusion
