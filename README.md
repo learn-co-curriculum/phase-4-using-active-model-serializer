@@ -47,13 +47,10 @@ attributes in our list. One way we could do this is by using Active Record's
 built-in `to_json` method in our controller. It might look something like this:
 
 ```rb
+# app/controllers/movies_controller.rb
 def show
-  movie = Movie.find_by(id: params[:id])
-  if movie
-    render json: movie.to_json(only: [:id, :title, :year, :length, :director, :description, :poster_url, :category, :discount, :female_director])
-  else
-    render json: { error: "Movie not found" }, status: :not_found
-  end
+  movie = Movie.find(params[:id])
+  render json: movie.to_json(only: [:id, :title, :year, :length, :director, :description, :poster_url, :category, :discount, :female_director])
 end
 ```
 
@@ -61,12 +58,8 @@ We can simplify matters with the following:
 
 ```rb
 def show
-  movie = Movie.find_by(id: params[:id])
-  if movie
-    render json: movie.to_json(except: [:created_at, :updated_at])
-  else
-    render json: { error: "Movie not found" }, status: :not_found
-  end
+  movie = Movie.find(params[:id])
+  render json: movie.to_json(except: [:created_at, :updated_at])
 end
 ```
 
@@ -77,11 +70,7 @@ belong to authors, we might want to do something like this:
 ```rb
 def show
   post = Post.find(params[:id])
-  if post
-    render json: post.to_json(only: [:title, :description, :id], include: [author: { only: [:name]}])
-  else
-    render json: { error: "Post not found" }, status: :not_found
-  end
+  render json: post.to_json(only: [:title, :description, :id], include: [author: { only: [:name]}])
 end
 ```
 
@@ -143,13 +132,10 @@ end
 With this in place, we can return our `movies_controller` to its original state:
 
 ```rb
+# app/controllers/movies_controller.rb
 def show
-  movie = Movie.find_by(id: params[:id])
-  if movie
-    render json: movie
-  else
-    render json: { error: "Movie not found" }, status: :not_found
-  end
+  movie = Movie.find(params[:id])
+  render json: movie
 end
 ```
 
@@ -236,7 +222,7 @@ end
 To use our summary, we'll add a new route to `routes.rb`:
 
 ```rb
-#config/routes.rb
+# config/routes.rb
 ...
 get '/movies/:id/summary', to: 'movies#summary'
 ```
@@ -245,14 +231,10 @@ And, finally, add a `summary` action to our controller. In it, we specify that
 we want to use our new serializer to render the requested information:
 
 ```rb
-#app/controllers/movies_controller.rb
+# app/controllers/movies_controller.rb
 def summary
-  movie = Movie.find_by(id: params[:id])
-  if movie
-    render json: movie, serializer: MovieSummarySerializer
-  else
-    render json: { error: "Movie not found" }, status: :not_found
-  end
+  movie = Movie.find(params[:id])
+  render json: movie, serializer: MovieSummarySerializer
 end
 ```
 
@@ -270,11 +252,11 @@ movie. If we wanted to use our new custom serializer to render the full
 collection of movies, we would need to create another route and action:
 
 ```rb
-#config/routes.rb
+# config/routes.rb
 ...
 get '/movie_summaries', to: 'movies#summaries'
 
-#app/controllers/movies_controller.rb
+# app/controllers/movies_controller.rb
 def summaries
   movies = Movie.all
   render json: movies, each_serializer: MovieSummarySerializer
