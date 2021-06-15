@@ -269,7 +269,7 @@ collection.
 
 ## Conclusion
 
-In this lesson, we learned that the `ActiveMethod::Serializer` gem enables us to
+In this lesson, we learned that the `ActiveModel::Serializer` gem enables us to
 customize how we want our JSON to be rendered without sacrificing the Rails
 principles of "convention over configuration" and separation of concerns. We
 also learned how to implement AMS with a single model. In the next lesson, we'll
