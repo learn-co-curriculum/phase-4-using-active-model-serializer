@@ -13,10 +13,10 @@ this section, we'll learn how to customize the JSON that we return.
 
 Let's start by taking a look at our movie app. To set up the app, run:
 
-```sh
-bundle install
-rails db:migrate db:seed
-rails s
+```console
+$ bundle install
+$ rails db:migrate db:seed
+$ rails s
 ```
 
 We have two actions set up: index and show. If you navigate to
