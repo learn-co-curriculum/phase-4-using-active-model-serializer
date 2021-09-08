@@ -267,6 +267,14 @@ The use of `each_serializer: MovieSummarySerializer` in our action tells the app
 to use our custom movie summary serializer to render each of the movies in the
 collection.
 
+> A note on breaking convention: by creating these custom routes, we are
+> breaking REST conventions. One alternate way to structure this kind of feature
+> and keep our routes and controllers RESTful would be to create a new
+> controller, such as Movies::SummaryController. The creator of Rails, DHH,
+> advocates for [this approach for managing sub-resources][dhh-controllers].
+> Ultimately, it is up to you as the developer to decide which approach works
+> best for a particular circumstance.
+
 ## Conclusion
 
 In this lesson, we learned that the `ActiveModel::Serializer` gem enables us to
@@ -278,3 +286,5 @@ look at using AMS to serialize associations.
 ## Resources
 
 - [ActiveModel::Serializer Documentation](https://github.com/rails-api/active_model_serializers/tree/v0.10.6/docs)
+
+[dhh-controllers]: http://jeromedalbert.com/how-dhh-organizes-his-rails-controllers/
