@@ -283,6 +283,14 @@ principles of "convention over configuration" and separation of concerns. We
 also learned how to implement AMS with a single model. In the next lesson, we'll
 look at using AMS to serialize associations.
 
+## Check For Understanding
+
+Before you move on, make sure you can answer the following questions:
+
+1. What do we mean when we say Active Model Serializer uses a convention-based
+   approach?
+2. What are some ways to break convention when using `ActiveModel::Serializer`?
+
 ## Resources
 
 - [ActiveModel::Serializer Documentation](https://github.com/rails-api/active_model_serializers/tree/v0.10.6/docs)
