@@ -287,13 +287,9 @@ look at using AMS to serialize associations.
 
 Before you move on, make sure you can answer the following questions:
 
-1. How do we implement a serializer in our app using Active Model Serializer?
-2. What additional steps are required to return a custom method in our
-   serializer?
-3. What additional argument do we use in our `render` statement if we want to
-   specify which serializer to use?
-4. What do we mean when we say Active Model Serializer uses a convention-based
+1. What do we mean when we say Active Model Serializer uses a convention-based
    approach?
+2. What are some ways to break convention when using `ActiveModel::Serializer`?
 
 ## Resources
 
